@@ -1,23 +1,31 @@
 #include <iostream>
 #include <stdio.h>
 #include <string>
+
 #include "client.h"
 #include "server.h"
-namespace std;
 
 int main() {
-	string username, message, buffer = "";
-	//Boot UI window
+	std::string username = "";
+	// Boot UI window
 	// Initialize UI Object
-	//Print welcome message
+	//Print welcome message in UI window
 	cout << "Welcome to ChatLML, an implementation of Pictochat in C++! Please enter your username: " << endl;
 	//Enter username
 	fgets(username, sizeof(username), stdin);
 	//If user decides to host:
-	server_t server;
-	server.username = username;
-	server.
+	host_loop(username);
 	//Join -> client.h
 	//Exit -> end program
 	return 0;
+}
+
+static int host_loop(std::string username) {
+	Server server;
+	server.username = username;
+}
+
+static int client_loop(std::string username) {
+	Client client;
+	client.username = username;
 }
