@@ -3,6 +3,7 @@
 #include <arpa/inet.h>
 #include <unistd.h>
 #include <string.h>
+#include "chatbox.h"
 
 #define PORT 8080
 
@@ -36,10 +37,14 @@ int main() {
         print("Connection Failed. Retrying..."\n);
         sleep(1); // Added delay for retrying
     }
+    ChatBox chatBox; //creates chatbox object for when we implement a gui
 
     while (1) { // REPL Loop
         // Read message from server first
         valread = read(sock, buffer, 1024);
+        if (valread > 0) {
+            chatBox.displayMessage("Message from server: " + std::string(buffer));
+        }
         std::cout << "Message from server: " << buffer << std::endl;
 
         // Read user input
@@ -53,7 +58,8 @@ int main() {
 
         // Send message to server
         send(sock, message, strlen(message), 0);
-        std::cout << "Message sent to server" << std::endl;
+        chatBox.displayMessage("You: " + std::string(message)); //we can use this for when we implement a GUI. i'm thinking FLTK
+        //std::cout << "Message sent to server" << std::endl;
     }
     return 0;
 }
