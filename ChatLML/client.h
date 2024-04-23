@@ -12,11 +12,11 @@ struct Client{
     std::string username;
 };
 
-extern int init(string IP,int port);//Attempts to create a TCP connection
+extern int init(std::string IP);//Attempts to create a TCP connection
 
-extern void send_message(string message);//Will send message over TCP connection
+extern void send_message(std::string message);//Will send message over TCP connection
 
-extern std::string recieve_message();//Will check for message recieved over TCP connection
+extern std::string receive_message();//Will check for message recieved over TCP connection
 
 //extern int send_picture(); //Send user-drawn picture over TCP connection
 

@@ -1,3 +1,1 @@
-add_executable(
-    chatlml
-    main.cpp)
+add_executable(chatlml main.cpp server.cpp client.cpp ChatBox.cpp)

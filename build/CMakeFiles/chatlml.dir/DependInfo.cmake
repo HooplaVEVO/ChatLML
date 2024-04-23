@@ -8,10 +8,10 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/workspace/ChatLML/ChatLML/ChatBox.cpp" "ChatLML/CMakeFiles/chatlml.dir/ChatBox.o" "gcc" "ChatLML/CMakeFiles/chatlml.dir/ChatBox.o.d"
-  "/workspace/ChatLML/ChatLML/client.cpp" "ChatLML/CMakeFiles/chatlml.dir/client.o" "gcc" "ChatLML/CMakeFiles/chatlml.dir/client.o.d"
-  "/workspace/ChatLML/ChatLML/main.cpp" "ChatLML/CMakeFiles/chatlml.dir/main.o" "gcc" "ChatLML/CMakeFiles/chatlml.dir/main.o.d"
-  "/workspace/ChatLML/ChatLML/server.cpp" "ChatLML/CMakeFiles/chatlml.dir/server.o" "gcc" "ChatLML/CMakeFiles/chatlml.dir/server.o.d"
+  "/workspace/ChatLML/ChatLML/ChatBox.cpp" "CMakeFiles/chatlml.dir/ChatBox.cpp.o" "gcc" "CMakeFiles/chatlml.dir/ChatBox.cpp.o.d"
+  "/workspace/ChatLML/ChatLML/client.cpp" "CMakeFiles/chatlml.dir/client.cpp.o" "gcc" "CMakeFiles/chatlml.dir/client.cpp.o.d"
+  "/workspace/ChatLML/ChatLML/main.cpp" "CMakeFiles/chatlml.dir/main.cpp.o" "gcc" "CMakeFiles/chatlml.dir/main.cpp.o.d"
+  "/workspace/ChatLML/ChatLML/server.cpp" "CMakeFiles/chatlml.dir/server.cpp.o" "gcc" "CMakeFiles/chatlml.dir/server.cpp.o.d"
   )
 
 # Targets to which this target links which contain Fortran sources.

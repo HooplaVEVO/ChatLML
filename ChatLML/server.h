@@ -19,11 +19,11 @@ struct Server{
 //prints a message in the console everytime a user joins/leaves. This might be difficult so I am only going to focus on getting
 //The server and client classes working for now.
 
-extern int init(int port);//Establishes TCP listener on port
+extern int init();//Establishes TCP listener on port
 
-extern void send_message(string message);//Sends message over established TCP connection
+extern void send_message(std::string message);//Sends message over established TCP connection
 
-extern std::string recieve_message();//Checks for message recieved over TCP connection
+extern std::string receive_message();//Checks for message recieved over TCP connection
 
 //extern int send_picture();//Sends a user-drawn picture
 
