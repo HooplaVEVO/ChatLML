@@ -1,0 +1,1 @@
+/usr/bin/c++ -rdynamic CMakeFiles/chatlml.dir/main.cpp.o CMakeFiles/chatlml.dir/server.cpp.o CMakeFiles/chatlml.dir/client.cpp.o CMakeFiles/chatlml.dir/ChatBox.cpp.o -o chatlml
