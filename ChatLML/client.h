@@ -1,14 +1,15 @@
-#ifndef CLIENT_T_H
-#define CLIENT_T_H
+#ifndef CLIENT_H
+#define CLIENT_H
 
 #include <string>
 #include <iostream>
 #include <sys/socket.h>
+#include <netinet/in.h>
 
 struct Client{
     int sock;
     struct sockaddr_in server_address;
-    char* username;
+    std::string username;
 };
 
 extern int init(string IP,int port);//Attempts to create a TCP connection

@@ -12,7 +12,7 @@
 struct Client {
     int sock;
     struct sockaddr_in server_address;
-    char* username;
+    std::string username;
 
     int init() {
         // Create socket

@@ -8,7 +8,7 @@
 using namespace std;
 
 struct Server{
-    char* username;
+    std::string username;
     int server_fd;
     struct sockaddr_in address;
     int opt = 1;
