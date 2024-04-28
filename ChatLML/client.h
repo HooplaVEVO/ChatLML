@@ -6,17 +6,22 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 
-struct Client{
+class Client{
+
+public:
+
+int init(std::string IP,int port);//Attempts to create a TCP connection
+
+void send_message(std::string message);//Will send message over TCP connection
+
+std::string recieve_message();//Will check for message recieved over TCP connection
+
     int sock;
     struct sockaddr_in server_address;
     std::string username;
 };
 
-extern int init(string IP,int port);//Attempts to create a TCP connection
 
-extern void send_message(string message);//Will send message over TCP connection
-
-extern std::string recieve_message();//Will check for message recieved over TCP connection
 
 //extern int send_picture(); //Send user-drawn picture over TCP connection
 

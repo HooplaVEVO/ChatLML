@@ -11,6 +11,8 @@ ChatBox* chatBox;
 void printMessage(const std::string& message);
 void hostCallback(const std::string &username);
 void joinCallback(const std::string &username);
+void host_loop(std::string username);
+void client_loop(std::string username);
 
 int main() {
 	std::string username = "";
@@ -21,41 +23,44 @@ int main() {
 	printMessage("Welcome to ChatLML, an implementation of Pictochat in C++! Please enter your username: ") ; //changed from cout to printMesage
 	//Enter username
 
-	std::getline(username, sizeof(username), stdin);
+	std::getline(std::cin, username);
 	//If user decides to host:
 	hostCallback(username);
 	//Join -> client.h
 	//Exit -> end program
 	return 0;
+	//return Fl::run();
 }
 //added functions:
-void printMessage(const std::string& message){
+void printMessage(const std::string &message){
 	chatBox->appendMessage(message);
 }
 
-void hostCallback(const std::string username){
+void hostCallback(const std::string &username){
 	printMessage("Hosting as " + username);
 host_loop(username);
 }
 
-void joinCallback(const std::string& username) {
+void joinCallback(const std::string &username) {
     printMessage("Joining as " + username);
     // Start joining
     client_loop(username);
 }
 
 
-static int host_loop(std::string username) {
+void host_loop(std::string username) {
 	Server server;
 	server.username = username;
+	
 } 
 
 
-static int client_loop(std::string username) {
+void client_loop(std::string username) {
 	Client client;
 	client.username = username;
+	
 } 
-return Fl::run();
+
 
 
 
