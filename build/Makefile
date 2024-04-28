@@ -57,10 +57,10 @@ RM = /home/linuxbrew/.linuxbrew/Cellar/cmake/3.29.2/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /workspace/ChatLML
+CMAKE_SOURCE_DIR = /workspace/ChatLML/ChatLML
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /workspace/ChatLML
+CMAKE_BINARY_DIR = /workspace/ChatLML/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -68,7 +68,7 @@ CMAKE_BINARY_DIR = /workspace/ChatLML
 # Special rule for the target edit_cache
 edit_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Running CMake cache editor..."
-	/home/linuxbrew/.linuxbrew/Cellar/cmake/3.28.3/bin/ccmake -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+	/home/linuxbrew/.linuxbrew/Cellar/cmake/3.29.2/bin/ccmake -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
 .PHONY : edit_cache
 
 # Special rule for the target edit_cache
@@ -87,14 +87,14 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	cd /workspace/ChatLML && $(CMAKE_COMMAND) -E cmake_progress_start /workspace/ChatLML/CMakeFiles /workspace/ChatLML/ChatLML//CMakeFiles/progress.marks
-	cd /workspace/ChatLML && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 ChatLML/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /workspace/ChatLML/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /workspace/ChatLML/build/CMakeFiles /workspace/ChatLML/build//CMakeFiles/progress.marks
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
+	$(CMAKE_COMMAND) -E cmake_progress_start /workspace/ChatLML/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
 clean:
-	cd /workspace/ChatLML && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 ChatLML/clean
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 clean
 .PHONY : clean
 
 # The main clean target
@@ -103,92 +103,127 @@ clean/fast: clean
 
 # Prepare targets for installation.
 preinstall: all
-	cd /workspace/ChatLML && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 ChatLML/preinstall
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 preinstall
 .PHONY : preinstall
 
 # Prepare targets for installation.
 preinstall/fast:
-	cd /workspace/ChatLML && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 ChatLML/preinstall
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 preinstall
 .PHONY : preinstall/fast
 
 # clear depends
 depend:
-	cd /workspace/ChatLML && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
+	$(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
-# Convenience name for target.
-ChatLML/CMakeFiles/chatlml.dir/rule:
-	cd /workspace/ChatLML && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 ChatLML/CMakeFiles/chatlml.dir/rule
-.PHONY : ChatLML/CMakeFiles/chatlml.dir/rule
+#=============================================================================
+# Target rules for targets named chatlml
 
-# Convenience name for target.
-chatlml: ChatLML/CMakeFiles/chatlml.dir/rule
+# Build rule for target.
+chatlml: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 chatlml
 .PHONY : chatlml
 
 # fast build rule for target.
 chatlml/fast:
-	cd /workspace/ChatLML && $(MAKE) $(MAKESILENT) -f ChatLML/CMakeFiles/chatlml.dir/build.make ChatLML/CMakeFiles/chatlml.dir/build
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chatlml.dir/build.make CMakeFiles/chatlml.dir/build
 .PHONY : chatlml/fast
 
-# target to build an object file
-ChatBox.o:
-	cd /workspace/ChatLML && $(MAKE) $(MAKESILENT) -f ChatLML/CMakeFiles/chatlml.dir/build.make ChatLML/CMakeFiles/chatlml.dir/ChatBox.o
+ChatBox.o: ChatBox.cpp.o
 .PHONY : ChatBox.o
 
-# target to preprocess a source file
-ChatBox.i:
-	cd /workspace/ChatLML && $(MAKE) $(MAKESILENT) -f ChatLML/CMakeFiles/chatlml.dir/build.make ChatLML/CMakeFiles/chatlml.dir/ChatBox.i
+# target to build an object file
+ChatBox.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chatlml.dir/build.make CMakeFiles/chatlml.dir/ChatBox.cpp.o
+.PHONY : ChatBox.cpp.o
+
+ChatBox.i: ChatBox.cpp.i
 .PHONY : ChatBox.i
 
-# target to generate assembly for a file
-ChatBox.s:
-	cd /workspace/ChatLML && $(MAKE) $(MAKESILENT) -f ChatLML/CMakeFiles/chatlml.dir/build.make ChatLML/CMakeFiles/chatlml.dir/ChatBox.s
+# target to preprocess a source file
+ChatBox.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chatlml.dir/build.make CMakeFiles/chatlml.dir/ChatBox.cpp.i
+.PHONY : ChatBox.cpp.i
+
+ChatBox.s: ChatBox.cpp.s
 .PHONY : ChatBox.s
 
-# target to build an object file
-client.o:
-	cd /workspace/ChatLML && $(MAKE) $(MAKESILENT) -f ChatLML/CMakeFiles/chatlml.dir/build.make ChatLML/CMakeFiles/chatlml.dir/client.o
+# target to generate assembly for a file
+ChatBox.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chatlml.dir/build.make CMakeFiles/chatlml.dir/ChatBox.cpp.s
+.PHONY : ChatBox.cpp.s
+
+client.o: client.cpp.o
 .PHONY : client.o
 
-# target to preprocess a source file
-client.i:
-	cd /workspace/ChatLML && $(MAKE) $(MAKESILENT) -f ChatLML/CMakeFiles/chatlml.dir/build.make ChatLML/CMakeFiles/chatlml.dir/client.i
+# target to build an object file
+client.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chatlml.dir/build.make CMakeFiles/chatlml.dir/client.cpp.o
+.PHONY : client.cpp.o
+
+client.i: client.cpp.i
 .PHONY : client.i
 
-# target to generate assembly for a file
-client.s:
-	cd /workspace/ChatLML && $(MAKE) $(MAKESILENT) -f ChatLML/CMakeFiles/chatlml.dir/build.make ChatLML/CMakeFiles/chatlml.dir/client.s
+# target to preprocess a source file
+client.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chatlml.dir/build.make CMakeFiles/chatlml.dir/client.cpp.i
+.PHONY : client.cpp.i
+
+client.s: client.cpp.s
 .PHONY : client.s
 
-# target to build an object file
-main.o:
-	cd /workspace/ChatLML && $(MAKE) $(MAKESILENT) -f ChatLML/CMakeFiles/chatlml.dir/build.make ChatLML/CMakeFiles/chatlml.dir/main.o
+# target to generate assembly for a file
+client.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chatlml.dir/build.make CMakeFiles/chatlml.dir/client.cpp.s
+.PHONY : client.cpp.s
+
+main.o: main.cpp.o
 .PHONY : main.o
 
-# target to preprocess a source file
-main.i:
-	cd /workspace/ChatLML && $(MAKE) $(MAKESILENT) -f ChatLML/CMakeFiles/chatlml.dir/build.make ChatLML/CMakeFiles/chatlml.dir/main.i
+# target to build an object file
+main.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chatlml.dir/build.make CMakeFiles/chatlml.dir/main.cpp.o
+.PHONY : main.cpp.o
+
+main.i: main.cpp.i
 .PHONY : main.i
 
-# target to generate assembly for a file
-main.s:
-	cd /workspace/ChatLML && $(MAKE) $(MAKESILENT) -f ChatLML/CMakeFiles/chatlml.dir/build.make ChatLML/CMakeFiles/chatlml.dir/main.s
+# target to preprocess a source file
+main.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chatlml.dir/build.make CMakeFiles/chatlml.dir/main.cpp.i
+.PHONY : main.cpp.i
+
+main.s: main.cpp.s
 .PHONY : main.s
 
-# target to build an object file
-server.o:
-	cd /workspace/ChatLML && $(MAKE) $(MAKESILENT) -f ChatLML/CMakeFiles/chatlml.dir/build.make ChatLML/CMakeFiles/chatlml.dir/server.o
+# target to generate assembly for a file
+main.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chatlml.dir/build.make CMakeFiles/chatlml.dir/main.cpp.s
+.PHONY : main.cpp.s
+
+server.o: server.cpp.o
 .PHONY : server.o
 
-# target to preprocess a source file
-server.i:
-	cd /workspace/ChatLML && $(MAKE) $(MAKESILENT) -f ChatLML/CMakeFiles/chatlml.dir/build.make ChatLML/CMakeFiles/chatlml.dir/server.i
+# target to build an object file
+server.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chatlml.dir/build.make CMakeFiles/chatlml.dir/server.cpp.o
+.PHONY : server.cpp.o
+
+server.i: server.cpp.i
 .PHONY : server.i
 
-# target to generate assembly for a file
-server.s:
-	cd /workspace/ChatLML && $(MAKE) $(MAKESILENT) -f ChatLML/CMakeFiles/chatlml.dir/build.make ChatLML/CMakeFiles/chatlml.dir/server.s
+# target to preprocess a source file
+server.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chatlml.dir/build.make CMakeFiles/chatlml.dir/server.cpp.i
+.PHONY : server.cpp.i
+
+server.s: server.cpp.s
 .PHONY : server.s
+
+# target to generate assembly for a file
+server.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chatlml.dir/build.make CMakeFiles/chatlml.dir/server.cpp.s
+.PHONY : server.cpp.s
 
 # Help Target
 help:
@@ -222,6 +257,6 @@ help:
 # No rule that depends on this can have commands that come from listfiles
 # because they might be regenerated.
 cmake_check_build_system:
-	cd /workspace/ChatLML && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
+	$(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
 .PHONY : cmake_check_build_system
 

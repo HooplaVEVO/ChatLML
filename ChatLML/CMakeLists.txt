@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 cmake_minimum_required(VERSION 3.10)
 project(ChatLML)
@@ -23,3 +24,6 @@ add_executable(
 if(MSVC)
     add_definitions(-D_WIN32_WINNT=0x0601)
 endif()
+=======
+add_executable(chatlml main.cpp server.cpp client.cpp ChatBox.cpp)
+>>>>>>> 5c335656ccc7f003d8945cb69c6b5b1abad3e61b

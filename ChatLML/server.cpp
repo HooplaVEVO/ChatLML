@@ -47,7 +47,7 @@ struct Server {
         return 0;
     }
 
-    void send_message(int new_socket, const char* str) {
+    void send_message(int new_socket, std::string message) {
         std::string messageWithUsername = username; // Add username to the message
         messageWithUsername += ": ";
         messageWithUsername += message;
