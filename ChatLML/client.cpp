@@ -10,12 +10,11 @@
 
 #define PORT 8080
 
-struct Client {
-    int sock;
-    struct sockaddr_in server_address;
-    std::string username;
+    Client::Client(std::string& user){
+        Client->username=user;
+    }
 
-    int init(std::string IP) {
+    int Client::init(std::string IP) {
         // Create socket
         if ((sock = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
             std::cerr << "Socket creation error" << std::endl;
@@ -38,20 +37,19 @@ struct Client {
         return 0;
     }
 
-    void send_message(std::string message) {
+    void Client::send_message(std::string message) {
         std::string messageWithUsername = username; // Add username to the message
         messageWithUsername += ": ";
         messageWithUsername += message;
         send(sock, messageWithUsername.c_str(), messageWithUsername.length(), 0);
     }
 
-    std::string receive_message() {
+    std::string Client::receive_message() {
         char buffer[1024] = { 0 };
         read(sock, buffer, 1024);
         return std::string(buffer);
     }
 
-    void terminate() {
+    void Client::terminate() {
         close(sock);
     }
-};

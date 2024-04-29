@@ -10,15 +10,12 @@
 #define PORT 8080
 #define MAX_CONNECTIONS 5
 
-struct Server {
-    int server_fd; //Socket file descriptor
-    struct sockaddr_in address;
-    int opt = 1;
-    int addrlen = sizeof(address);
-    char* username; //Username which sends with every message
+    Server::Server(std::string& user){
+        Server->username=user;
+    }
 
-    int init() {
-        // Creating socket file descriptor
+    int Server::init() {
+     // Creating socket file descriptor
         if ((server_fd = socket(AF_INET, SOCK_STREAM, 0)) == 0) {
             std::cerr << "Socket creation failed" << std::endl;
             exit(EXIT_FAILURE);
@@ -47,21 +44,20 @@ struct Server {
         return 0;
     }
 
-    void send_message(int new_socket, std::string message) {
+    void Server::send_message(int new_socket, std::string message) {
         std::string messageWithUsername = username; // Add username to the message
         messageWithUsername += ": ";
         messageWithUsername += message;
         send(new_socket, messageWithUsername.c_str(), messageWithUsername.length(), 0);
     }
 
-    std::string receive_message(int new_socket) {
+    std::string Server::receive_message(int new_socket) {
         char buffer[1024] = { 0 };
         read(new_socket, buffer, 1024);
         return std::string(buffer);
     }
 
-    void terminate() {
+    void Server::terminate() {
         close(server_fd);
     }
-};
 
