@@ -2,29 +2,20 @@
 #define CLIENT_H
 
 #include <string>
-#include <iostream>
-#include <sys/socket.h>
 #include <netinet/in.h>
 
-class Client{
+class Client {
 public:
     int sock;
     struct sockaddr_in server_address;
     std::string username;
 
-    Client(std::string&);
+    Client(std::string& user);
 
-    int init(std::string IP,int port);//Attempts to create a TCP connection
-
-    void send_message(std::string message);//Will send message over TCP connection
-
-    std::string recieve_message();//Will check for message recieved over TCP connection
-
-    void terminate(); //Ends TCP listener
+    int init(std::string IP); // Initialize connection to the server
+    void send_message(const std::string& message); // Send a message over TCP connection
+    std::string receive_message(); // Check for received message over TCP connection
+    void terminate(); // Ends TCP connection
 };
-
-
-
-
 
 #endif
