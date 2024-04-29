@@ -6,6 +6,8 @@
 #include <FL/Fl_Input.H>
 #include <FL/Fl_Multiline_Output.H>
 #include <string>
+#include "server.h"
+#include "client.h"
 
 
 ChatBox::ChatBox(int x, int y, int w, int h, const char* title) : Fl_Window(x, y, w, h, title) {
