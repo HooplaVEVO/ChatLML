@@ -10,9 +10,7 @@
 #define PORT 8080
 #define MAX_CONNECTIONS 5
 
-    Server::Server(std::string& user){
-        Server->username=user;
-    }
+    
 
     int Server::init() {
      // Creating socket file descriptor
@@ -27,16 +25,15 @@
             std::cerr << "setsockopt failed" << std::endl;
             exit(EXIT_FAILURE);
         }
-        address.sin_family = AF_INET;
-        address.sin_addr.s_addr = INADDR_ANY;
-        address.sin_port = htons(PORT);
+        server_address.sin_family = AF_INET;
+        server_address.sin_addr.s_addr = INADDR_ANY;
+        server_address.sin_port = htons(PORT);
 
         // Forcefully attaching socket to the port 8080
-        if (bind(server_fd, (struct sockaddr*)&address,
-            sizeof(address)) < 0) {
-            std::cerr << "Bind failed" << std::endl;
-            exit(EXIT_FAILURE);
-        }
+        if (bind(server_fd, (struct sockaddr*)&server_address, sizeof(server_address)) < 0) {
+        std::cerr << "Bind failed" << std::endl;
+        exit(EXIT_FAILURE);
+    }
         if (listen(server_fd, MAX_CONNECTIONS) < 0) {
             std::cerr << "Listen failed" << std::endl;
             exit(EXIT_FAILURE);
@@ -44,12 +41,10 @@
         return 0;
     }
 
-    void Server::send_message(int new_socket, std::string message) {
-        std::string messageWithUsername = username; // Add username to the message
-        messageWithUsername += ": ";
-        messageWithUsername += message;
-        send(new_socket, messageWithUsername.c_str(), messageWithUsername.length(), 0);
-    }
+    void Server::send_message(int new_socket, const std::string& message) {
+    std::string messageWithUsername = username + ": " + message;
+    send(new_socket, messageWithUsername.c_str(), messageWithUsername.length(), 0);
+}
 
     std::string Server::receive_message(int new_socket) {
         char buffer[1024] = { 0 };
@@ -60,4 +55,3 @@
     void Server::terminate() {
         close(server_fd);
     }
-
