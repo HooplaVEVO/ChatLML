@@ -13,16 +13,10 @@
 #include <FL/Fl_JPEG_Image.H>
 #include <FL/fl_ask.H>
 
-
-
-
 ChatBox::ChatBox(int x, int y, int w, int h, const char* title) : Fl_Window(x, y, w, h, title) {
-    chatDisplay->hide();
-    messageInput->hide();
-    sendButton->hide();
-    color(FL_DARK_CYAN);
-
-    Fl_JPEG_Image *bg_image = new Fl_JPEG_Image("/Users/laila/Downloads/chatlml3.png");
+    
+    
+    Fl_PNG_Image *bg_image = new Fl_PNG_Image("/Users/laila/Downloads/chat4.png");
     if (bg_image->w() == 0 || bg_image->h() == 0) {
     std::cerr << "Failed to load image." << std::endl;
     // Handle error, maybe set a fallback color or image
@@ -35,14 +29,14 @@ ChatBox::ChatBox(int x, int y, int w, int h, const char* title) : Fl_Window(x, y
     int buttonTextSize = 24;
     //window->size(new_width, new_height);
     int welcomeLabelWidth = w - 40; // width of the label
-    int welcomeLabelHeight = 100; // height of the label
+    int welcomeLabelHeight = 70; // height of the label
     int welcomeLabelX = (w - welcomeLabelWidth) / 2; // center the label on the x-axis
     int welcomeLabelY = h / 4;
     // Initialize widgets with adjusted positions and sizes
     welcomeLabel = new Fl_Box(welcomeLabelX, welcomeLabelY, welcomeLabelWidth, welcomeLabelHeight, "Welcome to ChatLML!");
     welcomeLabel->box(FL_NO_BOX);
     welcomeLabel->labelfont(FL_BOLD + FL_ITALIC);
-    welcomeLabel->labelsize(36);
+    welcomeLabel->labelsize(45);
     welcomeLabel->labeltype(FL_SHADOW_LABEL);
     welcomeLabel->align(FL_ALIGN_CENTER | FL_ALIGN_INSIDE);
 
@@ -53,7 +47,7 @@ ChatBox::ChatBox(int x, int y, int w, int h, const char* title) : Fl_Window(x, y
 
     
 
-    int buttonWidth = 100; // width of the button
+    int buttonWidth = 70; // width of the button
     int buttonHeight = 30; // height of the button
     int buttonX = (w - buttonWidth) / 2; // center the button on the x-axis
     int buttonY = inputY + inputHeight + 20;
@@ -66,19 +60,23 @@ ChatBox::ChatBox(int x, int y, int w, int h, const char* title) : Fl_Window(x, y
 
 // Initialize the username input
 usernameInput = new Fl_Input(inputX, inputY, inputWidth, inputHeight, "Username:");
+usernameInput->color(FL_WHITE);
+usernameInput->labelfont(FL_BOLD + FL_ITALIC);
 usernameInput->textsize(24); // Make text bigger
 usernameInput->labelsize(18);
 
 
 
     // Initialize the nextButton
-    int nextButtonWidth = 300; // width of the button
-    int nextButtonHeight = 120; // height of the button
+    int nextButtonWidth = 200; // width of the button
+    int nextButtonHeight = 80; // height of the button
     int nextButtonX = (w - nextButtonWidth) / 2; // center the button on the x-axis
     int nextButtonY = welcomeLabelY + welcomeLabelHeight + 80; // position the button below the label
 
     nextButton = new Fl_Button(nextButtonX, nextButtonY, nextButtonWidth, nextButtonHeight, "Next");
+    nextButton->color(FL_MAGENTA);
     nextButton->labelsize(buttonTextSize);
+    nextButton->labelfont(FL_BOLD + FL_ITALIC);
     nextButton->callback(ChatBox::onNextButtonClicked, (void*)this);
 
     // Place the host and join buttons below the username input
@@ -98,7 +96,7 @@ joinInput->labelsize(18);
     chatDisplay = new Fl_Multiline_Output(10, 100, w - 20, h - 200, "");
     chatDisplay->box(FL_DOWN_BOX);
     chatDisplay->textfont(FL_COURIER);
-    chatDisplay->textsize(14);
+    chatDisplay->textsize(24);
     chatDisplay->wrap(1);
 
     messageInput = new Fl_Input(10, chatDisplay->y() + chatDisplay->h() + 10, w - 110, 30, "");
@@ -107,28 +105,28 @@ joinInput->labelsize(18);
     sendButton->callback(ChatBox::onSendButtonClicked, (void*)this);
     sendButton->hide();
 
-
+    chatDisplay->hide();
+    messageInput->hide();
+    sendButton->hide();
 
     // The quit button is usually at the bottom of the application
     quitButton = new Fl_Button(w - 70, h - 40, 60, 30, "Quit");
     quitButton->callback(onQuitButtonClicked, (void*)this);
 
-    end(); // End of widget addition
+
+     // End of widget addition
     showWelcomeScreen();
+    end();
 }
-//chatbox
-//when you figure out how  to start a chatroom, this is the code of the actual chatroom
-void ChatBox::onSendButtonClicked(Fl_Widget*, void* v) {
-    ChatBox* chatbox = static_cast<ChatBox*>(v);
-    const char* msg = chatbox->messageInput->value();
-    if (msg && strlen(msg) > 0) {
-        chatbox->addMessage(msg);
-        chatbox->messageInput->value("");  // Clear the input field after sending
-    }
+std::string ChatBox::getUsername() {
+    return usernameInput->value();
 }
 
 
 void ChatBox::showWelcomeScreen() {
+        std::cout << "Showing welcome screen." << std::endl;
+
+    this->show();
     // Only the welcome label and next button should be visible at first
     welcomeLabel->show();
     welcomeLabel->labelcolor(FL_GREEN);
@@ -137,6 +135,7 @@ void ChatBox::showWelcomeScreen() {
     hostButton->hide();
     joinButton->hide();
     joinInput->hide();
+    
 }
 
 void ChatBox::showUsernameScreen() {
@@ -158,13 +157,36 @@ void ChatBox::showHostJoinScreen() {
     joinButton->show();
     joinInput->hide();
 }
-void ChatBox::showJoinScreen(){
+void ChatBox::showJoinScreen() {
+    // Hide all unnecessary widgets
+    welcomeLabel->label("Enter Server IP:");
+    welcomeLabel->show();
     usernameInput->hide();
-    nextButton->hide();
+
+    // Show the IP input field and adjust the button for action
+    joinInput->show();
+    nextButton->label("Connect");
+    nextButton->show();
+
+    // Hide other buttons that are not needed
     hostButton->hide();
     joinButton->hide();
-    joinInput->show();
 }
+
+
+void ChatBox::onNextButtonClicked(Fl_Widget*, void* v) {
+    ChatBox* chatbox = static_cast<ChatBox*>(v);
+    const char* currentLabel = chatbox->nextButton->label();
+
+    if (strcmp(currentLabel, "Host/Join") == 0) {
+        chatbox->showHostJoinScreen();
+    } else if (strcmp(currentLabel, "Connect") == 0) {
+        chatbox->attemptToJoinServer();
+    } else {
+        chatbox->showUsernameScreen();
+    }
+}
+
 void ChatBox::showHostScreen(){
     usernameInput->hide();
     nextButton->hide();
@@ -185,13 +207,25 @@ void ChatBox::showChatScreen() {
     messageInput->show();
     sendButton->show();
 }
+void ChatBox::attemptToJoinServer() {
+    std::string IP = joinInput->value();
+    std::string username = getUsername(); // Assume this retrieves a previously entered username
 
-void ChatBox::onNextButtonClicked(Fl_Widget*, void* v) {
+    if (IP.empty()) {
+        fl_alert("Please enter a server IP to join.");
+        return;
+    }
+}
+
+//chatbox
+//when you figure out how  to start a chatroom, this is the code of the actual chatroom
+void ChatBox::onSendButtonClicked(Fl_Widget*, void* v) {
     ChatBox* chatbox = static_cast<ChatBox*>(v);
-    if (strcmp(chatbox->nextButton->label(), "Next") == 0) {
-        chatbox->showUsernameScreen();
-    } else if (strcmp(chatbox->nextButton->label(), "Host/Join") == 0) {
-        chatbox->showHostJoinScreen();
+    const char* msg = chatbox->messageInput->value();
+    if (msg && strlen(msg) > 0) {
+        std::string username = chatbox->getUsername();  // Fetch the username
+        chatbox->addMessage(username, msg);  // Send both username and message
+        chatbox->messageInput->value("");  // Clear the input field after sending
     }
 }
 
@@ -202,42 +236,69 @@ ChatBox::~ChatBox() {
 
 void ChatBox::onJoinButtonClicked(Fl_Widget*, void* v) {
     ChatBox* chatbox = static_cast<ChatBox*>(v);
+
+    // Get the input values
     std::string IP = chatbox->joinInput->value();
-    if (IP.empty()) {
-        fl_alert("Please enter a server IP to join.");
+    std::string username = chatbox->usernameInput->value();
+
+    // Check for the necessary conditions before attempting to connect
+    if (username.empty()) {
+        fl_alert("Please enter your username.");
+        chatbox->showUsernameScreen(); // Make sure user can enter username
         return;
     }
-    Client client(chatbox->usernameInput->value());
+
+    if (IP.empty()) {
+        fl_alert("Please enter a server IP to join.");
+        chatbox->showJoinScreen(); // Ensure IP input is visible
+        return;
+    }
+
+    // Attempt to connect if all inputs are valid
+    Client client(username);
     if (client.init(IP) == 0) {
-        chatbox->addMessage("Connected to server successfully.");
+        chatbox->addMessage(username, "Connected to server successfully.");
         chatbox->showChatScreen();
     } else {
         fl_alert("Failed to connect to server.");
     }
 }
+
+
+
 void ChatBox::onHostButtonClicked(Fl_Widget*, void* v) {
     ChatBox* chatbox = static_cast<ChatBox*>(v);
     std::string username = chatbox->usernameInput->value();
     if (username.empty()) {
-        fl_alert("Please enter a username.");
+        fl_alert("Please enter your username.");
+        chatbox->showUsernameScreen(); // Make sure user can enter username
         return;
     }
     Server server(username);
     if (server.init() == 0) {
-        chatbox->addMessage("Server started successfully. Waiting for connections...");
+        // Correctly pass both the username and the message directly
+        chatbox->addMessage(username, "Server started successfully. Waiting for connections...");
         chatbox->showChatScreen();
     } else {
         fl_alert("Failed to start server.");
     }
 }
+
 //chat room code
-void ChatBox::addMessage(const std::string& message) {
-    std::string newContent = std::string(chatDisplay->value()) + message + "\n";
+void ChatBox::addMessage(const std::string& username, const std::string& message) {
+    std::string formattedMessage = username + ": " + message + "\n";
+    std::string newContent = std::string(chatDisplay->value()) + formattedMessage;
     chatDisplay->value(newContent.c_str());
-}
+
+    }
+    
+
+
+
 void ChatBox::onQuitButtonClicked(Fl_Widget*, void* v) {
     ((ChatBox*)v)->hide(); // Alternatively, Fl::exit();
 }
+
 
 
 
