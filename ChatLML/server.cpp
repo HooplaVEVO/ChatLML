@@ -1,59 +1,61 @@
-//Server class which includes init, send_message, recieve_message and terminate functions. Will add picture functions later.
+#include "server.h"
 #include <iostream>
 #include <cstring>
 #include <unistd.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
-
-#include "server.h"
 
 #define PORT 8080
 #define MAX_CONNECTIONS 5
 
-    Server::Server(std::string user){
-        username=user;
-    }
-
-    int Server::init() {
-     // Creating socket file descriptor
-        if ((server_fd = socket(AF_INET, SOCK_STREAM, 0)) == 0) {
-            std::cerr << "Socket creation failed" << std::endl;
-            exit(EXIT_FAILURE);
-        }
-
-        // Forcefully attaching socket to the port 8080
-        if (setsockopt(server_fd, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT,
-            &opt, sizeof(opt))) {
-            std::cerr << "setsockopt failed" << std::endl;
-            exit(EXIT_FAILURE);
-        }
-        server_address.sin_family = AF_INET;
-        server_address.sin_addr.s_addr = INADDR_ANY;
-        server_address.sin_port = htons(PORT);
-
-        // Forcefully attaching socket to the port 8080
-        if (bind(server_fd, (struct sockaddr*)&server_address, sizeof(server_address)) < 0) {
-        std::cerr << "Bind failed" << std::endl;
-        exit(EXIT_FAILURE);
-    }
-        if (listen(server_fd, MAX_CONNECTIONS) < 0) {
-            std::cerr << "Listen failed" << std::endl;
-            exit(EXIT_FAILURE);
-        }
-        return 0;
-    }
-
-    void Server::send_message(std::string message) {
-    std::string messageWithUsername = username + ": " + message;
-    send(666, messageWithUsername.c_str(), messageWithUsername.length(), 0);
+Server::Server(const std::string& user) : username(user), server_fd(-1), opt(1), addrlen(sizeof(server_address)) {
+    server_address.sin_family = AF_INET;
+    server_address.sin_port = htons(PORT);
+    server_address.sin_addr.s_addr = INADDR_ANY;
 }
 
-    std::string Server::receive_message() {
-        char buffer[1024] = { 0 };
-        read(666, buffer, 1024);
-        return std::string(buffer);
+int Server::init() {
+    server_fd = socket(AF_INET, SOCK_STREAM, 0);
+    if (server_fd == -1) {
+        std::cerr << "Socket creation failed" << std::endl;
+        return -1;
     }
 
-    void Server::terminate() {
+    // Using SO_REUSEADDR to reuse the socket address on restart
+    if (setsockopt(server_fd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt)) == -1) {
+        std::cerr << "setsockopt SO_REUSEADDR failed" << std::endl;
+        return -1;
+    }
+
+    if (bind(server_fd, (struct sockaddr *)&server_address, sizeof(server_address)) < 0) {
+        perror("Bind failed");
+        return -1;
+    }
+
+    if (listen(server_fd, MAX_CONNECTIONS) < 0) {
+        std::cerr << "Listen failed" << std::endl;
+        return -1;
+    }
+
+    std::cout << "Server listening on port " << PORT << std::endl;
+    return 0; // Only indicate successful initialization here
+}
+
+void Server::send_message(int new_socket, const std::string& message) {
+    std::string messageWithUsername = username + ": " + message;
+    send(new_socket, messageWithUsername.c_str(), messageWithUsername.length(), 0);
+}
+
+std::string Server::receive_message(int new_socket) {
+    char buffer[1024] = {0};
+    read(new_socket, buffer, 1024);
+    return std::string(buffer);
+}
+
+void Server::terminate() {
+    if (server_fd != -1) {
         close(server_fd);
     }
+}
+
+Server::~Server() {
+    terminate();
+}
