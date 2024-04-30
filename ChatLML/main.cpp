@@ -5,56 +5,77 @@
 #include "server.h"
 
 // Forward declarations
-/*
-void printMessage(const std::string& message);
-void hostCallback(const std::string &username);
-void joinCallback(const std::string &username);
-void host_loop(std::string username);
-void client_loop(std::string username);
-*/
+void host_loop(ChatBox chatbox);
+void client_loop(ChatBox chatbox);
 
 int main() {
-    //ChatBox chatBox(800, 800, 1000, 800, "ChatLML");
-    //chatBox.show();
+    ChatBox chatBox(800, 800, 1000, 800, "ChatLML");
+    chatBox.show();
+    //Must get the username input from FL window
+
+    //Call host_loop or join_loop depending on FL window input
     return 0;
 }
-/* //Commented out for debugging purposes
-//added functions:
-void printMessage(const std::string &message){
-	chatBox->appendMessage(message);
-}
 
-void hostCallback(const std::string &username){
-	printMessage("Hosting as " + username);
-host_loop(username);
-}
-
-void joinCallback(const std::string &username) {
-    printMessage("Joining as " + username);
-    // Start joining
-    client_loop(username);
-}
-
-
-void host_loop(std::string username) {
-	Server server;
-	server.username = username;
-	
-} 
-
-// Client loop function
-static int client_loop(const std::string& username, const std::string& IP) {
-    Client client;
-    client.username = username;
-    std::string receive = "";
+static void host_loop(ChatBox chatbox,std::string username){
+    Server server(username);
+    std::string rec = "";
     std::string send = "";
+    std::string temp = "";
+    if(server.init()!=0){ //Unsuccessful server initialization
+        chatbox.addMessage("Chatroom creation failed");
+        return;
+    }
+    else{
+        chatbox.addMessage("Chatroom successfully initialized!");
+    }
+    while(true){//Chatroom Loop
+        //Check for new message
+        temp = server.receive_message();
+        if(rec!=temp){
+            rec = temp;
+            chatbox.addMessage(rec);
+        }
+        //Need a method in chatbox which will tell main when send button is clicked and pass the input back
+        //send =
+        server.send_message(send);
+        //If user presses quit button on window, return
+        //On exit:
+        server.terminate();
+        return;
+    }
 
-void client_loop(std::string username) {
-	Client client;
-	client.username = username;
-	
-} 
-*/
+}
+
+static void join_loop(ChatBox chatbox,std::string username,std::string IP){
+    Client client(username);
+    std::string rec = "";
+    std::string send = "";
+    std::string temp = "";
+    if(client.init(IP)!=0){ //Unsuccessful server initialization
+        chatbox.addMessage("Chatroom join failed");
+        return;
+    }
+    else{
+        chatbox.addMessage("Chatroom successfully initialized!");
+    }
+    while(true){//Chatroom Loop
+        //Check for new message
+        temp = client.receive_message();
+        if(rec!=temp){
+            rec = temp;
+            chatbox.addMessage(rec);
+        }
+        //Send message
+        //Need a method in chatbox which will tell main when send button is clicked and pass the input back
+        //send = chatbox.getSendInput or something or other
+        client.send_message(send);
+        //If user presses quit button on window:
+        client.terminate();
+        return;
+    }
+}
+
 
 
 

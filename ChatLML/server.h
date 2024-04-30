@@ -12,11 +12,10 @@ public:
     int opt;
     int addrlen;
 
-    Server(const std::string& user);
-
+    Server(std::string);
     int init(); // Establishes TCP listener on port
-    void send_message(int new_socket, const std::string& message); // Sends message over established TCP connection
-    std::string receive_message(int new_socket); // Checks for message received over TCP connection
+    void send_message(std::string); // Sends message over established TCP connection
+    std::string receive_message(); // Checks for message received over TCP connection
     void terminate(); // Ends TCP connection
 };
 
