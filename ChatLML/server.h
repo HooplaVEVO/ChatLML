@@ -1,8 +1,10 @@
-#ifndef SERVER_T_H
-#define SERVER_T_H
+#ifndef SERVER_H
+#define SERVER_H
 
 #include <string>
+#include <sys/socket.h>
 #include <netinet/in.h>
+#include <arpa/inet.h>
 
 class Server {
 public:
@@ -12,11 +14,13 @@ public:
     int opt;
     int addrlen;
 
-    Server(std::string);
-    int init(); // Establishes TCP listener on port
-    void send_message(std::string); // Sends message over established TCP connection
-    std::string receive_message(); // Checks for message received over TCP connection
-    void terminate(); // Ends TCP connection
+    Server(const std::string& user);
+    ~Server();
+
+    int init();
+    void send_message(int new_socket, const std::string& message);
+    std::string receive_message(int new_socket);
+    void terminate();
 };
 
-#endif
+#endif // SERVER_H
