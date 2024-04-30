@@ -10,7 +10,9 @@
 #define PORT 8080
 #define MAX_CONNECTIONS 5
 
-    
+    Server::Server(std::string user){
+        username=user;
+    }
 
     int Server::init() {
      // Creating socket file descriptor
@@ -41,14 +43,14 @@
         return 0;
     }
 
-    void Server::send_message(int new_socket, const std::string& message) {
+    void Server::send_message(std::string message) {
     std::string messageWithUsername = username + ": " + message;
-    send(new_socket, messageWithUsername.c_str(), messageWithUsername.length(), 0);
+    send(666, messageWithUsername.c_str(), messageWithUsername.length(), 0);
 }
 
-    std::string Server::receive_message(int new_socket) {
+    std::string Server::receive_message() {
         char buffer[1024] = { 0 };
-        read(new_socket, buffer, 1024);
+        read(666, buffer, 1024);
         return std::string(buffer);
     }
 
