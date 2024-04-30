@@ -7,6 +7,9 @@
 #include <FL/Fl_Box.H>
 #include <FL/Fl_Multiline_Output.H>
 #include <string>
+#include <FL/fl_ask.h>
+#include "server.h"   // Make sure this is correctly pointed to your Server header
+#include "client.h"   // Make sure this is correctly pointed to your Client header
 
 class ChatBox : public Fl_Window {
 public:
@@ -14,7 +17,12 @@ public:
     ~ChatBox();
     void addMessage(const std::string& message);
 
-    // Widgets
+    // Declare pointers to Server and Client
+    Server* server;
+    Client* client;
+
+    // Widget members
+    Fl_Box* background;
     Fl_Box* welcomeLabel;
     Fl_Input* usernameInput;
     Fl_Input* joinInput;
@@ -26,19 +34,20 @@ public:
     Fl_Button* quitButton;
     Fl_Button* sendButton;
 
-    // Screens
+    // Screen functions
     void showWelcomeScreen();
     void showUsernameScreen();
     void showHostJoinScreen();
     void showHostScreen();
     void showJoinScreen();
+    void showChatScreen();
 
 private:
     static void onHostButtonClicked(Fl_Widget*, void*);
     static void onJoinButtonClicked(Fl_Widget*, void*);
     static void onQuitButtonClicked(Fl_Widget*, void*);
     static void onNextButtonClicked(Fl_Widget*, void*);
-    static void onSendButtonClicked(Fl_Widget*, void*);  // Ensure this is declared
+    static void onSendButtonClicked(Fl_Widget*, void*);
 };
 
 #endif // CHATBOX_H
