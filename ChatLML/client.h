@@ -10,7 +10,7 @@ public:
     struct sockaddr_in server_address;
     std::string username;
 
-    Client(std::string& user);
+    Client(const std::string& user); // Changed from non-const to const reference
 
     int init(std::string IP); // Initialize connection to the server
     void send_message(const std::string& message); // Send a message over TCP connection
@@ -18,4 +18,4 @@ public:
     void terminate(); // Ends TCP connection
 };
 
-#endif
+#endif // CLIENT_H
